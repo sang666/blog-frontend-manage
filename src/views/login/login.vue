@@ -18,15 +18,15 @@
                             <el-input v-model="user.userName" placeholder="用户名/邮箱"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" required>
-                            <el-input v-model="user.password" placeholder="密码"></el-input>
+                            <el-input type="password" v-model="user.password" placeholder="密码"></el-input>
                         </el-form-item>
                         <el-form-item label="人类验证码" required>
-                            <el-input v-model="loginInfo.verifyCode" placeholder="请输入右侧的验证码"></el-input>
+                            <el-input v-model="loginInfo.verifyCode" placeholder="请输入右侧的验证码" @keypress.enter.native="doLogin"></el-input>
 
                         </el-form-item>
 
                         <el-form-item style="border: 0;background: 0;" class="login-button">
-                            <el-button type="primary" size="small" @click="doLogin">登录</el-button>
+                            <el-button type="primary" size="small" @click="doLogin" >登录</el-button>
                         </el-form-item>
                     </el-form>
                 </el-col>
@@ -42,7 +42,11 @@
 </div>
 </template>
 
+
+
 <script>
+import axios from 'axios'
+import login from "../../api/login";
     export default {
 
         data() {
@@ -53,24 +57,64 @@
                 },
                 loginInfo:{
                     verifyCode:'',
-                    captcha_key:'',
-                    from:''
+                    from:'p_',
+                    captcha_key:''
                 },
                 captchaPath:'',
-                captcha_key:''
+
             }
         },
         methods: {
+
+            toastE(msg){
+              this.$message({
+                  message:msg,
+                  center:true,
+                  type:'error'
+              })
+            },
+
             doLogin() {
+                //todo：
+                //发起登录
+                //检查数据，向服务器提交数据，处理结果
+                if (this.user.userName === '') {
+                    this.toastE('用户名不能为空')
+                    return
+                }
+                if (this.user.password === '') {
+                    this.toastE('密码不能为空')
+                    return
+                }
+                if (this.loginInfo.verifyCode === '') {
+                    this.toastE('验证码不能为空')
+                    return
+                }
+                console.log(this.loginInfo)
+                console.log(this.user)
+                login.doLogin(this.loginInfo.verifyCode,this.loginInfo.captcha_key,this.user)
+                .then(response=>{
+                    //如果成功则跳转---判断角色，如果是普通用户，跳转到门户页，如果是管理员，跳转到管理中心
+
+                    if (response.data.code === 20000) {
+                        //todo:需要判断角色
+                        this.$router.push({path:'/index'});
+                    }else{
+                        this.updateVerifyCode();
+                    }
+                })
+
 
             },
             updateVerifyCode(){
-              this.captchaPath = 'http://localhost:8004/biz/user/captcha?captcha_key='+this.captcha_key+"&random="+Date.parse(new Date());
+              this.captchaPath = 'http://sang66.icu:8004/biz/user/captcha?captcha_key='+this.loginInfo.captcha_key+"&random="+Date.parse(new Date());
 
             }
         },
         mounted() {
-             this.captcha_key = Date.parse(new Date());
+            //todo:检查登录是否有效
+            //如果已经登录了，跳转到管理员界面
+             this.loginInfo.captcha_key = Date.parse(new Date());
             this.updateVerifyCode();
         }
     }

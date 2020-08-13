@@ -3,14 +3,14 @@
 
             <el-menu
                     default-active="1-1"
-                    unique-opened="true"
+                    :unique-opened="true"
                     class="el-menu-vertical-demo">
 
 
                 <template  v-for="(item,index) in menuList" >
 
                     <router-link :to="item.path" v-if="!item.children" :key="index">
-                        <el-menu-item :index="index">
+                        <el-menu-item :index="index+''">
                             <i :class="item.icon"></i>
                             <span slot="title">{{item.name}}</span>
                         </el-menu-item>
@@ -18,7 +18,7 @@
 
 
 
-                    <el-submenu  v-else :key="index" :index="index">
+                    <el-submenu  v-else :key="index" :index="index+''">
                         <template slot="title">
                             <i :class="item.icon"></i>
                             <span>{{item.name}}</span>
@@ -53,7 +53,7 @@
         mounted() {
             let menuList = routes[0];
             this.menuList = menuList.children
-            console.log(this.menuList)
+            //console.log(this.menuList)
         }
     }
 </script>
