@@ -24,7 +24,7 @@ export default {
     },
     addCategory(category){
         return request({
-            url:``,
+            url:`/api/biz/categories/addCat`,
             method:'post',
             data:category
         })
