@@ -90,7 +90,7 @@
             </div>
 
             <div slot="footer" class="dialog-footer">
-                <el-button @click="editorDialogShow = false" type="primary">取 消</el-button>
+                <el-button @click="closeDialog" type="primary">取 消</el-button>
                 <el-button type="danger"
                 @click="postCategory">{{editorCommitText}}</el-button>
             </div>
@@ -127,6 +127,10 @@
             }
         },
         methods:{
+            closeDialog(){
+                this.resetCategory();
+                this.editorDialogShow=false;
+            },
             edit(item){
                 //最好的做法是请求单个数据，在显示
                 this.category.name = item.name

@@ -93,7 +93,7 @@
             </div>
 
             <div slot="footer" class="dialog-footer">
-                <el-button @click="editorDialogShow = false" type="primary">取 消</el-button>
+                <el-button @click="closeDialog" type="primary">取 消</el-button>
                 <el-button type="danger"
                            @click="postLoop">{{editorCommitText}}</el-button>
             </div>
@@ -131,6 +131,11 @@
             }
         },
         methods:{
+
+            closeDialog(){
+                this.resetLooper();
+                this.editorDialogShow=false;
+            },
             showAddloop(){
                 this.editTitle = '添加轮播图'
                 this.editorCommitText = '添加'
