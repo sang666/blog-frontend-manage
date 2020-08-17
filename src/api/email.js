@@ -2,9 +2,9 @@ import request from '../utils/request'
 
 export default {
 
-    getUser(UserId){
+    getVerifyCode(emailAddress,type){
         return request({
-            url:`/api/biz/user/user_info/${UserId}`,
+            url:`/api/biz/user/verify_code?type=${type}&email=${emailAddress}`,
             method:'get'
         })
     },

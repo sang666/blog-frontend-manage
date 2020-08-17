@@ -80,12 +80,7 @@ export const routes = [
                     icon: 'el-icon-user',
                     name:'用户列表',
                 },
-                {
-                    path: 'reset-password',
-                    icon: 'el-icon-more-outline',
-                    name:'密码重置',
-                    component: RestPassword
-                },
+
                 {
                     path: 'email',
                     name:'邮箱设置',
