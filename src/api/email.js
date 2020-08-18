@@ -8,44 +8,11 @@ export default {
             method:'get'
         })
     },
-
-    listUser(current,limit){
+    updateEmailAddress(email,verify_code){
         return request({
-            url:`/api/biz/user/${current}/${limit}`,
-            method:'get',
-
-        })
-    },
-    searchListUser(userName,email){
-        return request({
-            url:`/api/biz/user/1/10?userName=${userName}&email=${email}`,
-            method:'get',
-
-        })
-    },
-    resetPasswrod(userId,password){
-        return request({
-            url:`/api/biz/user/reset-password/${userId}?password=${password}`,
+            url:`/api/biz/user/email?email=${email}&verify_code=${verify_code}`,
             method:'put'
         })
-    },
-
-
-    deleteUser(userId){
-        return request({
-            url:`/api/biz/user/${userId}`,
-            method:'delete',
-
-        })
-
-    },
-    updateLoop(loopId,loop){
-        return request({
-            url:`/api/biz/looper/${loopId}`,
-            method:'put',
-            data:loop
-        })
     }
-
 
 }
