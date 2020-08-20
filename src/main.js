@@ -4,13 +4,18 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
+import 'mavon-editor/dist/css/index.css'
 import LeftMenu from "./layout/LeftMenu";
 import TopHeader from "./layout/TopHeader";
 import RightContent from "./layout/RightContent";
 import axios from 'axios';
 import login from '../src/api/login'
+import mavonEditor from 'mavon-editor'
 
+
+// use
+
+Vue.use(mavonEditor)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.component('LeftMenu',LeftMenu)

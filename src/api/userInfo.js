@@ -19,6 +19,14 @@ export default {
             url:`/api/biz/user/check-token`,
             method:'get'
         })
+    },
+
+    updateuserInfo(userId,userInfo) {
+        return request({
+            url:`/api/biz/user/${userId}`,
+            method:'put',
+            data:userInfo
+        })
     }
 
 

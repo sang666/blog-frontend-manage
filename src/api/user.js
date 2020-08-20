@@ -8,6 +8,12 @@ export default {
             method:'get'
         })
     },
+    checkUserName(UserName){
+        return request({
+            url:`/api/biz/user/userName?UserName=${UserName}`,
+            method:'get'
+        })
+    },
 
     listUser(current,limit){
         return request({

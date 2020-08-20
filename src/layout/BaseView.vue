@@ -4,18 +4,13 @@
             <el-header id="admin-header-box">
                 <TopHeader></TopHeader>
             </el-header>
-            <el-container>
-                <el-aside id="left-menu-list-box" width="200px">
+            <el-container class="main-container">
+                <el-aside id="left-menu-list-box" width="220px">
                     <LeftMenu></LeftMenu>
                 </el-aside>
-                <el-container>
                     <el-main>
-                        <div class="content">
                             <router-view></router-view>
-                        </div>
                     </el-main>
-
-                </el-container>
             </el-container>
         </el-container>
 
@@ -26,15 +21,12 @@
     export default {
         name: "BaseView",
         mounted() {
-            //动态设置侧边栏的高度
+            /*//动态设置侧边栏的高度
             let leftMenuBox =  document.getElementById('left-menu-list-box');
             let adminHeaderBox = document.getElementById('admin-header-box');
             if (leftMenuBox&&adminHeaderBox) {
                 leftMenuBox.style.height = (window.innerHeight-adminHeaderBox.offsetHeight)+'px';
-
-
-
-            }
+            }*/
         }
     }
 </script>
@@ -57,6 +49,12 @@
     }
     .el-main{
         padding: 0;
+    }
+    .main-container{
+        position: absolute;
+        top: 46px;
+        bottom: 0;
+        width: 100%;
     }
 
 </style>
