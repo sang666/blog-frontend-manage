@@ -31,7 +31,9 @@
     }
 </script>
 
-<style scoped>
+<style >
+    #left-menu-list-box{
+    }
 
     #left-menu-list-box .el-menu{
         border-right: none ;
