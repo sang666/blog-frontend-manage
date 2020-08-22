@@ -5,6 +5,9 @@
 </template>
 
 <style>
+  a{
+    text-decoration: none;
+  }
   #app{
     min-width: 1140px;
   }

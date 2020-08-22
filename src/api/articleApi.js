@@ -15,17 +15,23 @@ export default {
         })
     },
 
-    updateCategory(categoryId,category){
+    topArticle(id){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
-            method:'put',
-            data:category
+            url:`/api/biz/article/top/${id}`,
+            method:'put'
+
         })
     },
 
-    deleteCategory(categoryId){
+    deleteArticle(articleId){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
+            url:`/api/biz/article/state/${articleId}`,
+            method:'delete'
+        })
+    },
+    relDeleteArticle(articleId){
+        return request({
+            url:`/api/biz/article/${articleId}`,
             method:'delete'
         })
     },
@@ -37,11 +43,19 @@ export default {
         })
     },
 
-    saveDraftArticle(article){
+    ArticleDetail(articleId){
         return request({
-            url:`/api/biz/article/add`,
-            method:'post',
+            url:`/api/biz/article/${articleId}`,
+            method:'get'
+
+        })
+    },
+    updateArticle(articleId,article){
+        return request({
+            url:`/api/biz/article/${articleId}`,
+            method:'put',
             data:article
         })
-    }
+    },
+
 }

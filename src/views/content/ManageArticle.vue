@@ -84,10 +84,13 @@
                         <el-tag type="danger" size="medium">已删除</el-tag>
                     </div>
                     <div v-if="scope.row.state===0">
-                        <el-tag type="success" size="medium">正常</el-tag>
+                        <el-tag type="success" size="medium">已发布</el-tag>
                     </div>
                     <div v-if="scope.row.state===2">
                         <el-tag type="warning" size="medium">草稿</el-tag>
+                    </div>
+                    <div v-if="scope.row.state===3">
+                        <el-tag type="" size="medium">置顶</el-tag>
                     </div>
                 </template>
             </el-table-column>
@@ -124,10 +127,15 @@
             <el-table-column
                     fixed="right"
                     label="操作"
-                    width="200">
+                    width="300">
                 <template slot-scope="scope">
                     <el-button @click="edit(scope.row)" type="primary" size="mini">编辑</el-button>
-                    <el-button @click="deleteItem(scope.row)" type="danger" size="mini">删除</el-button>
+                    <el-button v-if="scope.row.state===1" @click="top(scope.row)" type="success" size="mini" disabled>置顶</el-button>
+                    <el-button v-else-if="scope.row.state===3" @click="top(scope.row)" type="success" size="mini">取消置顶</el-button>
+                    <el-button v-else @click="top(scope.row)" type="success" size="mini">置顶</el-button>
+                    <el-button @click="deleteItem(scope.row)" v-if="scope.row.state !==1" type="danger" size="mini" >删除</el-button>
+                    <el-button @click="deleteItem(scope.row)" v-if="scope.row.state ===1" type="danger" size="mini" disabled>删除</el-button>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -146,7 +154,17 @@
     </div>
 
     <div class="article-dialog-part">
-
+        <el-dialog
+                title="提示"
+                :visible.sync="deleteDialogShow"
+                width="400px">
+            <span>你确定要删除"{{deleteMassage}}"这个文章吗</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="deleteDialogShow = false">取 消</el-button>
+                <el-button type="danger" @click="RealDeleteItem">真的删除</el-button>
+                <el-button type="danger" @click="doDeleteItem">假装删除</el-button>
+        </span>
+        </el-dialog>
     </div>
 
 </div>
@@ -160,6 +178,13 @@
         name: "ManageArticle",
         data() {
             return {
+
+                deleteDialogShow:false,
+                deleteMassage:'',
+                deleteTargetId:'',
+                editorDialogShow:false,
+                editorCommitText:'修改分类',
+                editTitle:'编辑分类',
                 loading: false,
                 articles:[],
                 article:{
@@ -183,38 +208,54 @@
             }
         },
         methods: {
+            doDeleteItem(){
+                articleApi.deleteArticle(this.deleteTargetId).then(resp=>{
+                    this.listArticleS();
+                })
+                this.deleteDialogShow = false;
+            },
+            RealDeleteItem(){
+                articleApi.relDeleteArticle(this.deleteTargetId).then(resp=>{
+                    this.listArticleS();
+                })
+                this.deleteDialogShow = false;
+            },
             resetForm(refname) {
                 this.courseQuery.end=''
                 this.courseQuery.begin=''
                 this.$refs[refname].resetFields();
                 this.listArticleS()
             },
-            edit(){
-
+            edit(item){
+                let articleId=item.id
+                this.$router.push({
+                    path:'/content/postArticle',
+                    query:{
+                        articleId:articleId
+                    }
+                });
             },
-            deleteItem(){
-
+            deleteItem(item){
+                //不是马上删除，而是给出警告提示
+                this.deleteDialogShow = true;
+                this.deleteMassage = item.title;
+                this.deleteTargetId = item.id
             },
             listArticleS() {
+                this.loading = true
                 console.log(this.courseQuery.begin);
                 articleApi.getArticles(this.pageNavigation.current,this.pageNavigation.size,this.courseQuery.categoryId
                     ,this.courseQuery.begin,this.courseQuery.end
                     ,this.courseQuery.labels,this.courseQuery.name
                     ,this.courseQuery.state).then(resp=>{
                     if (resp.data.code === 20000) {
+                        this.loading = false
                         this.pageNavigation = resp.data.data.rows
                         this.articles= resp.data.data.rows.records
                     }
                 })
             },
 
-            listArticleNo(){
-                articleApi.getArticlesNo(1,10).then(resp=>{
-                    if (resp.data.code === 20000) {
-                        this.articles= resp.data.data.rows.records
-                    }
-                })
-            },
             onPageChange(page){
                 this.pageNavigation.current = page
                 this.listArticleS()
@@ -226,6 +267,14 @@
                     }
                 })
             },
+            top(item){
+                articleApi.topArticle(item.id).then(resp=>{
+                    if (resp.data.code === 20000) {
+                        this.listArticleS()
+                    }
+                })
+
+            }
 
         },
         mounted() {

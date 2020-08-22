@@ -45,7 +45,7 @@
                 </el-form-item>
                 <el-form-item label="封面" required>
                     <div class="article-cover-selector" @click="showImageSelector">
-                        <i class="el-icon-plus" v-if="article.cover===''"></i>
+                        <i class="el-icon-plus" v-if="article.cover===''||article.cover===null"></i>
                         <el-image  fit="cover" v-else :src="article.cover"></el-image>
                     </div>
                 </el-form-item>
@@ -77,8 +77,9 @@
         <div class="article-post-action-bar clearfix">
             <div class="action-btn-container">
                 <el-button plain @click="preView">全屏预览</el-button>
-                <el-button plain @click="saveArticleDraft">保存草稿</el-button>
-                <el-button plain type="primary" @click="commitArticle">发表文章</el-button>
+                <el-button v-if="!disableDraftbtn" plain @click="saveArticleDraft">保存草稿</el-button>
+                <el-button plain @click="saveArticleDraft" v-else disabled>保存草稿</el-button>
+                <el-button plain type="primary" @click="commitArticle">{{commitText}}</el-button>
             </div>
 
         </div>
@@ -162,6 +163,7 @@
                     labels:'',
                     state:0,
                     type:'1',
+                    id:''
                 },
                 images:[],
                 labelNewValue:'',
@@ -173,7 +175,9 @@
                     current:1,
                     size:10,
                     total:1,
-                }
+                },
+                commitText:'发表文章',
+                disableDraftbtn:false
 
             }
         },
@@ -187,11 +191,24 @@
                     this.showWarrning('标题不能为空')
                     return
                 }
+                let temLabels='';
+                //先处理一下标签
+                console.log(this.labelList);
+
+                this.labelList.forEach((item,index)=>{
+                    temLabels+=item;
+                    console.log(temLabels);
+                    if (index !== this.labelList.length - 1) {
+                        temLabels+='-';
+                    }
+                })
+                this.article.labels = temLabels;
                 //修改状态
-                this.article.state = '2';
+                this.article.state =2;
                 //提交数据
-                articleApi.saveDraftArticle(this.article).then(resp=>{
+                articleApi.postArticle(this.article).then(resp=>{
                     if (resp.data.code === 20000) {
+                        window.onbeforeunload = null;
                         //跳转到文章列表页面
                         this.$router.push({
                             path:'/content/ManageArticle'
@@ -207,6 +224,7 @@
                 })
             },
             commitArticle(){
+
                 //检查内容：标题，内容，分类，摘要，封面，标签
                 if (this.article.title === '') {
                     this.showWarrning('标题不能为空')
@@ -246,15 +264,37 @@
                 })
                 this.article.labels = temLabels;
                 //提交数据
-                console.log(this.article);
-                articleApi.postArticle(this.article).then(resp=>{
-                    if (resp.data.code === 20000) {
-                        //跳转到文章列表页面
-                        this.$router.push({
-                            path:'/content/ManageArticle'
-                        })
+                //判断article的id是否存在，如果有就是更新，否则就是发布
+                if (this.article.id==='') {
+                    //console.log(this.article);
+                    if (this.article.state === '3') {
+                    }else if (this.article.state === '2'){
+                        this.article.state='0'
+                    }else if (this.article.state === '1'){
+                        this.article.state='0'
                     }
-                })
+                    articleApi.postArticle(this.article).then(resp=>{
+                        if (resp.data.code === 20000) {
+                            window.onbeforeunload = null;
+                            //跳转到文章列表页面
+                            this.$router.push({
+                                path:'/content/ManageArticle'
+                            })
+                        }
+                    })
+                }else {
+                    //更新文章
+                    this.article.state='0'
+                    articleApi.updateArticle(this.article.id,this.article).then(resp=>{
+                        if (resp.data.code === 20000) {
+                            //跳转到文章列表页面
+                            this.$router.push({
+                                path:'/content/ManageArticle'
+                            })
+                        }
+                    })
+                }
+
             },
             onEditorImageClick(){
               //this.$message.success('编辑器图片点击了...')
@@ -345,14 +385,75 @@
                       this.pageNavigation = resp.data.data.page
                   }
               })
+            },
+            getArticleDetail(articleId){
+                articleApi.ArticleDetail(articleId).then(resp=>{
+                    if (resp.data.code === 20000) {
+                        this.article.id=resp.data.data.article.id
+                        this.article.type=resp.data.data.article.type
+                        this.article.state=resp.data.data.article.state
+                        this.article.labels=resp.data.data.article.labels
+                        this.article.cover=resp.data.data.article.cover
+                        this.article.summary=resp.data.data.article.summary
+                        this.article.categoryId=resp.data.data.article.categoryId
+                        this.article.title=resp.data.data.article.title
+                        this.article.content=resp.data.data.article.content
+                        this.labelList = resp.data.data.article.labelList
+                        //如果当前文章的状态是草稿，按钮显示发表文章
+                        //如果已经发布了，发布，置顶按钮显示更新
+                        if (this.article.state === 2) {
+                            this.commitText = '发表文章'
+                            this.disableDraftbtn = false
+                        }else {
+                            this.commitText = '更新文章'
+                            //草稿这个按钮就不能用了
+                            this.disableDraftbtn = true
+                        }
+                    }
+                })
+            },
+            open() {
+                this.$confirm('系统可能不会保存填写的信息噢~(￣▽￣)~*', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '返回!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消返回'
+                    });
+                });
             }
 
         },
+        beforeDestroy() {
+          window.onbeforeunload = null;
+        },
         mounted() {
+
+            window.onbeforeunload = function(){
+
+                return '系统可能不会保存填写的信息噢~(￣▽￣)~*'
+            };
+            //是否要获取文章详情
+            let articleId = this.$route.query.articleId
+            if (articleId) {
+                //获取文章详情
+                this.getArticleDetail(articleId)
+
+            }
             //获取文章分类
             this.listCategories()
             this.listImages()
 
+        },
+        beforeRouteLeave(to,from,next){
+            //做一个弹窗，如果确定才跳转
         }
     }
 </script>
