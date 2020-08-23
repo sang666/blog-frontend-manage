@@ -108,7 +108,7 @@ export default {
                 })
             },
             updateVerifyCode(){
-              this.captchaPath = 'http://localhost:8004/biz/user/captcha?captcha_key='+this.loginInfo.captcha_key+"&random="+Date.parse(new Date());
+              this.captchaPath = 'http://sang66.icu:8004/biz/user/captcha?captcha_key='+this.loginInfo.captcha_key+"&random="+Date.parse(new Date());
 
             }
         },

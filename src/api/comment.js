@@ -4,14 +4,14 @@ export default {
 
     getCommentList(current,limit){
         return request({
-            url:`/api/biz/comment/list/${current}/${limit}`,
+            url:`/biz/comment/list/${current}/${limit}`,
             method:'get'
         })
     },
 
     getCommentCount(){
         return request({
-            url:`/api/biz/comment/comment_count`,
+            url:`/biz/comment/comment_count`,
             method:'get'
         })
     },
@@ -20,14 +20,14 @@ export default {
 
     deleteComment(commentId){
         return request({
-            url:`/api/biz/comment/${commentId}`,
+            url:`/biz/comment/${commentId}`,
             method:'delete'
         })
     },
 
     topComment(commentId){
         return request({
-            url:`/api/biz/comment/top/${commentId}`,
+            url:`/biz/comment/top/${commentId}`,
             method:'put'
         })
     }

@@ -94,7 +94,7 @@
                 <div class="image-selector-box">
                     <div class="image-action-bar">
                             <el-upload class="image-selector-uploader"
-                                       action="/api/biz/images/upload/article"
+                                       action="/biz/images/upload/article"
                                        :show-file-list="false"
                                        :on-success="uploadSuccess"
                                        :on-error="onUploadError"
@@ -193,11 +193,9 @@
                 }
                 let temLabels='';
                 //先处理一下标签
-                console.log(this.labelList);
 
                 this.labelList.forEach((item,index)=>{
                     temLabels+=item;
-                    console.log(temLabels);
                     if (index !== this.labelList.length - 1) {
                         temLabels+='-';
                     }
@@ -253,11 +251,9 @@
 
                 let temLabels='';
                 //先处理一下标签
-                console.log(this.labelList);
 
                 this.labelList.forEach((item,index)=>{
                       temLabels+=item;
-                    console.log(temLabels);
                     if (index !== this.labelList.length - 1) {
                         temLabels+='-';
                     }

@@ -45,7 +45,7 @@
                        v-model="showAvatorCutter"
                        :width="300"
                        :height="300"
-                       url="/api/biz/images/upload/avatar"
+                       url="/biz/images/upload/avatar"
                        img-format="png">
 
             </avatar-upload>

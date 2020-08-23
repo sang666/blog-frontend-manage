@@ -243,7 +243,6 @@
             },
             listArticleS() {
                 this.loading = true
-                console.log(this.courseQuery.begin);
                 articleApi.getArticles(this.pageNavigation.current,this.pageNavigation.size,this.courseQuery.categoryId
                     ,this.courseQuery.begin,this.courseQuery.end
                     ,this.courseQuery.labels,this.courseQuery.name

@@ -3,14 +3,14 @@ import request from '../utils/request'
 export default {
     getCategories(){
         return request({
-            url:`/api/biz/categories/list`,
+            url:`/biz/categories/list`,
             method:'get'
         })
     },
 
     updateCategory(categoryId,category){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
+            url:`/biz/categories/${categoryId}`,
             method:'put',
             data:category
         })
@@ -18,13 +18,13 @@ export default {
 
     deleteCategory(categoryId){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
+            url:`/biz/categories/${categoryId}`,
             method:'delete'
         })
     },
     addCategory(category){
         return request({
-            url:`/api/biz/categories/addCat`,
+            url:`/biz/categories/addCat`,
             method:'post',
             data:category
         })

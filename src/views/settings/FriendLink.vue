@@ -148,7 +148,6 @@
             cropUploadSuccess(resp,field){
                 //this.showAvatorCutter = false
                 if (resp.code === 20000) {
-                    console.log(field);
                     this.friendLink.logo = 'https://'+resp.data.result.name
                 }
                 //console.log(this.userInfo.avatar);

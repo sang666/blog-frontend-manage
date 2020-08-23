@@ -4,41 +4,41 @@ export default {
 
     logout(){
       return request({
-          url:`/api/biz/user/logout`,
+          url:`/biz/user/logout`,
           method:'get'
       })
     },
 
     getUser(UserId){
         return request({
-            url:`/api/biz/user/user_info/${UserId}`,
+            url:`/biz/user/user_info/${UserId}`,
             method:'get'
         })
     },
     checkUserName(UserName){
         return request({
-            url:`/api/biz/user/userName?UserName=${UserName}`,
+            url:`/biz/user/userName?UserName=${UserName}`,
             method:'get'
         })
     },
 
     listUser(current,limit){
         return request({
-            url:`/api/biz/user/${current}/${limit}`,
+            url:`/biz/user/${current}/${limit}`,
             method:'get',
 
         })
     },
     searchListUser(userName,email){
         return request({
-            url:`/api/biz/user/1/10?userName=${userName}&email=${email}`,
+            url:`/biz/user/1/10?userName=${userName}&email=${email}`,
             method:'get',
 
         })
     },
     resetPasswrod(userId,password){
         return request({
-            url:`/api/biz/user/reset-password/${userId}?password=${password}`,
+            url:`/biz/user/reset-password/${userId}?password=${password}`,
             method:'put'
         })
     },
@@ -46,7 +46,7 @@ export default {
 
     deleteUser(userId){
         return request({
-            url:`/api/biz/user/${userId}`,
+            url:`/biz/user/${userId}`,
             method:'delete',
 
         })
@@ -54,7 +54,7 @@ export default {
     },
     updateLoop(loopId,loop){
         return request({
-            url:`/api/biz/looper/${loopId}`,
+            url:`/biz/looper/${loopId}`,
             method:'put',
             data:loop
         })

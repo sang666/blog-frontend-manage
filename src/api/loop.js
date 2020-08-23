@@ -4,14 +4,14 @@ export default {
 
     getLoop(looperId){
         return request({
-            url:`/api/biz/looper/${looperId}`,
+            url:`/biz/looper/${looperId}`,
             method:'get'
         })
     },
 
     listLoop(){
         return request({
-           url:`/api/biz/looper/list`,
+           url:`/biz/looper/list`,
            method:'get',
 
         })
@@ -19,7 +19,7 @@ export default {
 
     addLoop(loop){
         return request({
-            url:`/api/biz/looper`,
+            url:`/biz/looper`,
             method:'post',
             data:loop
         })
@@ -28,7 +28,7 @@ export default {
 
     deleteLoop(loopId){
         return request({
-            url:`/api/biz/looper/${loopId}`,
+            url:`/biz/looper/${loopId}`,
             method:'delete',
 
         })
@@ -36,7 +36,7 @@ export default {
     },
     updateLoop(loopId,loop){
         return request({
-            url:`/api/biz/looper/${loopId}`,
+            url:`/biz/looper/${loopId}`,
             method:'put',
             data:loop
         })

@@ -4,13 +4,13 @@ export default {
 
     getLinkList(){
         return request({
-            url:`/api/biz/friends/list`,
+            url:`/biz/friends/list`,
             method:'get'
         })
     },
     postFriendLink(friendLink){
         return request({
-            url:`/api/biz/friends`,
+            url:`/biz/friends`,
             method:'post',
             data:friendLink
         })
@@ -18,14 +18,14 @@ export default {
 
     updateUpdateFriendLink(friendLinkId,friendLink) {
         return request({
-            url:`/api/biz/friends/${friendLinkId}`,
+            url:`/biz/friends/${friendLinkId}`,
             method:'put',
             data:friendLink
         })
     },
     deleteFriendLink(friendLinkId){
         return request({
-            url:`/api//biz/friends/${friendLinkId}`,
+            url:`/biz/friends/${friendLinkId}`,
             method:'delete'
         })
     }

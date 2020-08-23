@@ -5,7 +5,7 @@ export default {
 
     doLogin(verifyCode,captcha_key,user){
         return request({
-            url:`/api/biz/user/login/${verifyCode}/${captcha_key}?from=p_`,
+            url:`/biz/user/login/${verifyCode}/${captcha_key}?from=p_`,
             method:'post',
             data:user
         })
@@ -13,7 +13,7 @@ export default {
 
     checkRole(){
         return request({
-            url:`/api/biz/user/check-token`,
+            url:`/biz/user/check-token`,
             method:'get'
         })
     }
