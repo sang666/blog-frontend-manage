@@ -47,7 +47,9 @@
 <script>
 import axios from 'axios'
 import login from "../../api/login";
-    export default {
+import {hex_md5} from "../../utils/md5";
+
+export default {
 
         data() {
             return {
@@ -90,8 +92,9 @@ import login from "../../api/login";
                     this.toastE('验证码不能为空')
                     return
                 }
-                console.log(this.loginInfo)
-                console.log(this.user)
+                //console.log(this.loginInfo)
+                //console.log(this.user)
+                this.user.password = hex_md5(this.user.password)
                 login.doLogin(this.loginInfo.verifyCode,this.loginInfo.captcha_key,this.user)
                 .then(response=>{
                     //如果成功则跳转---判断角色，如果是普通用户，跳转到门户页，如果是管理员，跳转到管理中心

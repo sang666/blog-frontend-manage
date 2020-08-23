@@ -1,6 +1,13 @@
 import request from '../utils/request'
 
 export default {
+
+    getArticleCount(){
+        return request({
+            url:`/api/biz/article/total_count`,
+            method:'get'
+        })
+    },
     getArticles(current,limit,categoryId,begin,end,labels,name,state){
         return request({
             url:`/api/biz/article/list/${current}/${limit}?categoryId=${categoryId}&begin=${begin}&end=${end}&labels=${labels}&name=${name}&state=${state}`,

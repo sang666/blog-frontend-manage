@@ -8,25 +8,12 @@ export default {
         })
     },
 
-    updateCategory(categoryId,category){
-        return request({
-            url:`/api/biz/categories/${categoryId}`,
-            method:'put',
-            data:category
-        })
-    },
 
-    deleteCategory(categoryId){
+    deleteImage(imageId){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
+            url:`/api/biz/images/${imageId}`,
             method:'delete'
         })
     },
-    addCategory(category){
-        return request({
-            url:`/api/biz/categories/addCat`,
-            method:'post',
-            data:category
-        })
-    }
+
 }

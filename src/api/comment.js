@@ -1,12 +1,7 @@
 import request from '../utils/request'
 
 export default {
-    getCategories(){
-        return request({
-            url:`/api/biz/categories/list`,
-            method:'get'
-        })
-    },
+
     getCommentList(current,limit){
         return request({
             url:`/api/biz/comment/list/${current}/${limit}`,
@@ -14,25 +9,27 @@ export default {
         })
     },
 
-    updateCategory(categoryId,category){
+    getCommentCount(){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
-            method:'put',
-            data:category
+            url:`/api/biz/comment/comment_count`,
+            method:'get'
         })
     },
 
-    deleteCategory(categoryId){
+
+
+    deleteComment(commentId){
         return request({
-            url:`/api/biz/categories/${categoryId}`,
+            url:`/api/biz/comment/${commentId}`,
             method:'delete'
         })
     },
-    addCategory(category){
+
+    topComment(commentId){
         return request({
-            url:`/api/biz/categories/addCat`,
-            method:'post',
-            data:category
+            url:`/api/biz/comment/top/${commentId}`,
+            method:'put'
         })
     }
+
 }

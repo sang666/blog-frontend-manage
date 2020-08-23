@@ -2,6 +2,13 @@ import request from '../utils/request'
 
 export default {
 
+    logout(){
+      return request({
+          url:`/api/biz/user/logout`,
+          method:'get'
+      })
+    },
+
     getUser(UserId){
         return request({
             url:`/api/biz/user/user_info/${UserId}`,

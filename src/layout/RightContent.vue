@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="right-content-container">
         <div class="content-title-box" v-text="$route.name">右边内容</div>
         <div class="content-box">
                 <router-view></router-view>
@@ -20,11 +20,14 @@
     .content-box{
         padding: 10px;
     }
-.content-title-box{
+    .content-title-box{
 
-    padding: 10px;
-    border-bottom: solid 1px #e6e6e6;
-    font-size: 20px;
-    line-height: 30px;
-}
+        padding: 10px;
+        border-bottom: solid 1px #e6e6e6;
+        font-size: 20px;
+        line-height: 30px;
+    }
+    .right-content-container{
+        min-width: 1140px;
+    }
 </style>

@@ -452,9 +452,9 @@
             this.listImages()
 
         },
-        beforeRouteLeave(to,from,next){
+        /*beforeRouteLeave(to,from,next){
             //做一个弹窗，如果确定才跳转
-        }
+        }*/
     }
 </script>
 

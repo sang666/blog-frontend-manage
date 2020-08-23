@@ -40,6 +40,8 @@ router.beforeEach((to,from,next)=>{
     login.checkRole().then(resp=>{
       let res = resp.data;
       if (res.code === 20020) {
+        window.localStorage.setItem('avatar',resp.data.data.user.avatar)
+        window.localStorage.setItem('userName',resp.data.data.user.userName)
         //成功,判断用户角色
         if (res.data.user.roles === 'role_admin') {
           next();

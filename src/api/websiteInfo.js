@@ -1,6 +1,12 @@
 import request from '../utils/request'
 
 export default {
+    getUserCount(){
+        return request({
+            url:`/api/admin/web_site_info/register_count`,
+            method:'get'
+        })
+    },
 
     getSeoInfo(){
         return request({

@@ -34,8 +34,8 @@
                     label="状态"
                     width="80">
                 <template slot-scope="scope">
-                    <div v-if="scope.row.state===1">
-                        <el-tag type="danger" size="medium">已删除</el-tag>
+                    <div v-if="scope.row.state===3">
+                        <el-tag type="" size="medium">置顶</el-tag>
                     </div>
                     <div v-if="scope.row.state===0">
                         <el-tag type="success" size="medium">正常</el-tag>
@@ -61,10 +61,29 @@
                     width="200">
                 <template slot-scope="scope">
                     <el-button @click="deleteItem(scope.row)" type="danger" size="mini">删除</el-button>
+                    <el-button v-if="scope.row.state===3" @click="top(scope.row)" type="success" size="mini">取消置顶</el-button>
+                    <el-button v-else @click="top(scope.row)" type="success" size="mini">置顶</el-button>
+
+
                 </template>
             </el-table-column>
         </el-table>
     </div>
+
+    <div class="category-dialog">
+        <el-dialog
+                title="提示"
+                :visible.sync="deleteDialogShow"
+                width="400px">
+            <span>你确定要删除"{{deleteMassage}}"这个评论吗吗</span>
+            <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="deleteDialogShow = false">取 消</el-button>
+            <el-button type="danger" @click="doDeleteItem">确 定</el-button>
+        </span>
+        </el-dialog>
+
+    </div>
+
     <!--分页-->
     <div class="article-page-navigation">
         <el-pagination
@@ -82,6 +101,7 @@
 
 <script>
     import comment from "../../api/comment";
+    import category from "../../api/category";
     export default {
         name: "ManageComment",
         methods: {
@@ -93,10 +113,26 @@
                     }
                 })
             },
-            edit(){
+
+            top(item){
+                comment.topComment(item.id).then(resp=>{
+                    if (resp.data.code === 20000) {
+                        this.commentList()
+                    }
+                })
 
             },
-            deleteItem(){
+            doDeleteItem(){
+                comment.deleteComment(this.deleteTargetId).then(resp=>{
+                    this.commentList();
+                })
+                this.deleteDialogShow = false;
+            },
+            deleteItem(item){
+                //不是马上删除，而是给出警告提示
+                this.deleteDialogShow = true;
+                this.deleteMassage = item.content;
+                this.deleteTargetId = item.id
 
             },
             onPageChange(page){
@@ -106,6 +142,9 @@
         },
         data() {
             return {
+                deleteDialogShow:false,
+                deleteMassage:'',
+                deleteTargetId:'',
                 comments: [],
                 pageNavigation: {
                     current:1,
