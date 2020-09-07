@@ -72,9 +72,15 @@
             </el-table-column>-->
             <el-table-column
                     fixed
-                    prop="title"
                     label="标题"
                     width="120">
+                <template slot-scope="scope">
+                    <a :href="'http://localhost:3000/article/'+scope.row.id" target="_blank">
+                        <span v-text="scope.row.title">
+
+                        </span>
+                    </a>
+                </template>
             </el-table-column>
             <el-table-column
                     label="状态"
@@ -113,7 +119,7 @@
                         <el-tag
                                 effect="plain"
                                 type="success"
-                                v-for="item in scope.row.labelList">{{item}}
+                                v-for="(item,index) in scope.row.labelList" :key="index">{{item}}
                         </el-tag>
                 </template>
             </el-table-column>

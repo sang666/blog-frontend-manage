@@ -28,6 +28,7 @@ module.exports = {
                 target:'http://localhost:8004',
                 changeOrigin:true
             }
+
         }
     }
 };

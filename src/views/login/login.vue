@@ -115,6 +115,7 @@ export default {
         mounted() {
             //todo:检查登录是否有效
             //如果已经登录了，跳转到管理员界面
+
              this.loginInfo.captcha_key = Date.parse(new Date());
             this.updateVerifyCode();
         }
